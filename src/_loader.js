@@ -4,6 +4,7 @@ var JQUERY = 'jquery-1.5.2.min.js';
 var JQUERY_UI = 'jquery-ui-1.8.11.custom.min.js';
 var JQUERY_LEGACY = 'jquery-1.3.2.min.js';
 var JQUERY_UI_LEGACY = 'jquery-ui-1.7.3.custom.min.js';
+var JQUERY_QTIP = 'jquery.qtip-1.0.0-rc3.min.js';
 
 var qs = window.location.href.match(/(\?.*)?$/)[0];
 var legacy = qs.indexOf('legacy') != -1;
@@ -26,11 +27,13 @@ if (!legacy) {
 	if (!noui) {
 		jslib('../lib/' + JQUERY_UI);
 	}
+	jslib('../lib/' + JQUERY_QTIP);
 }else{
 	jslib('../lib/' + JQUERY_LEGACY);
 	if (!noui) {
 		jslib('../lib/' + JQUERY_UI_LEGACY);
 	}
+	jslib('../lib/' + JQUERY_QTIP);
 }
 
 if (debug && (!window.console || !window.console.log)) {
