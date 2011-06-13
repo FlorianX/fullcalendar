@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+<link type="text/css" rel="stylesheet" href="http://jqueryui.com/themes/base/ui.all.css" />
+<script type='text/javascript' src='../src/_loader.js?debug'></script>
+<script type="text/javascript" src="http://jqueryui.com/themeroller/themeswitchertool/"></script>
+
+<script type='text/javascript'>
+$.fn.qtip.styles.Spirit = { // Last part is the name of the style
+		   width: 200,
+		   background: '#A2D959',
+		   color: 'black',
+		   textAlign: 'center',
+		   border: {
+		      width: 7,
+		      radius: 5,
+		      color: '#AFDF5F'
+		   },
+		   tip: 'bottomLeft',
+		   name: 'dark' // Inherit the rest of the attributes from the preset dark style
+}
+
+function initCalendar() {
+	var date = new Date();
+	var d = date.getDate();
+	var m = date.getMonth();
+	var y = date.getFullYear();
+
+		$('#calendar').fullCalendar({
+			defaultView:'agendaWeek',
+			header: {
+				left: 'prev,next today',
+				center: 'title',
+				right: 'month,agendaWeek,agendaDay'
+			},
+			
+			theme: true, // include the css for a theme
+			editable: false,
+			
+			isRTL: false,
+			firstDay: 1,
+			weekends: true,
+			
+			minTime: '8:00',
+			maxTime: '24:00',
+			firstHour: 8,
+			
+			monthNames: ["Januar", "Februar", "März", "April", "Mai", "Juni","Juli", "August", "September", "Oktober", "November", "Dezember"],
+			monthNamesShort: ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug","Sep", "Okt", "Nov", "Dez"],
+			dayNames: ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch','Donnerstag', 'Freitag', 'Samstag'],
+			dayNamesShort: ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"],
+			buttonText: {
+				today: 'heute',
+				month: 'Monat',
+				week: 'Woche',
+				day: 'Tag'
+			},
+			allDaySlot: true,
+			allDayText: 'ganztags',
+			slotMinutes: 30,
+			defaultEventMinutes: 90,
+			// time formats
+			axisFormat: "H:mm 'Uhr'",
+
+			titleFormat: {
+				month: 'MMMM yyyy',
+				week: "d.[ MMMM][ yyyy]{ '&#8212;' d. MMMM yyyy}",
+				day: 'dddd, MMM d, yyyy'
+			},
+			columnFormat: {
+				month: 'ddd',
+				week: 'dddd d.M.',
+				day: 'dddd d.M.'
+			},
+			timeFormat: { // for event elements
+				'':'H:mm{ - H:mm}' // default
+			},
+			weekMode: 'variable',
+		
+		    eventRender: function(event, element) {
+		    	var html;
+		    	html = '<b>' + event.title + '</b><br>';
+		    	html+= 'BESCHREIBUNG';
+		        element.qtip({
+		        	position: {
+		        		corner: {
+		        			target: 'topRight',
+		        			tooltip: 'bottomLeft'
+		        		}
+	        		},
+					style: 'Spirit',
+	        		content: html
+		        });
+		    },
+			/*
+			events:{
+		        url: 'getevents',
+		        error: function() {
+		            alert('there was an error while fetching events!');
+		        },
+		    }*/				
+			events:[
+				{
+					title: 'All Day Event',
+					start: new Date(y, m, 1)
+				},
+				{
+					title: 'Long Event',
+					start: new Date(y, m, d-5),
+					end: new Date(y, m, d-2),
+					color: 'yellow',
+					textColor: 'black'
+				},
+				{
+					id: 999,
+					title: 'Repeating Event',
+					start: new Date(y, m, d-3, 16, 0),
+					allDay: false
+				},
+				{
+					id: 999,
+					title: 'Repeating Event',
+					start: new Date(y, m, d+4, 16, 0),
+					allDay: false
+				},
+				{
+					title: 'Meeting',
+					start: new Date(y, m, d, 10, 30),
+					allDay: false
+				},
+				{
+					title: 'Lunch',
+					start: new Date(y, m, d, 12, 0),
+					end: new Date(y, m, d, 14, 0),
+					allDay: false
+				},
+				{
+					title: 'Birthday Party',
+					start: new Date(y, m, d+1, 19, 0),
+					end: new Date(y, m, d+1, 22, 30),
+					allDay: false
+				},
+				{
+					title: 'Click for Google',
+					start: new Date(y, m, 28),
+					end: new Date(y, m, 29),
+					url: 'http://google.com/'
+				}
+			]
+		});
+	}
+$(document).ready(function() {
+		initCalendar();
+		
+		$('#switcher').themeswitcher({
+			loadTheme: 'Smoothness',
+			height: 400,
+			onSelect: function(theme) {
+				setTimeout(function() {
+					$('#calendar').fullCalendar('render');
+				},1000);
+			}
+		});
+		
+	});
+</script>
+</head>
+<body style='font-size:13px;margin:40px 0 0'>
+<div id="switcher" style='position:absolute;top:5px;left:5px'></div>
+<div id='calendar' style='width:900px;margin:20px auto 0;font-family:arial'></div>
+</body>
+</html>
