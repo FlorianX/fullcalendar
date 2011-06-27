@@ -304,14 +304,24 @@ function AgendaEventRenderer() {
 			">" +
 			"<div class='fc-event-inner fc-event-skin'" + skinCssAttr + ">" +
 			"<div class='fc-event-head fc-event-skin'" + skinCssAttr + ">" +
-			"<div class='fc-event-time'>" +
-			htmlEscape(formatDates(event.start, event.end, opt('timeFormat'))) +
-			"</div>" +
-			"</div>" +
-			"<div class='fc-event-content'>" +
 			"<div class='fc-event-title'>" +
 			htmlEscape(event.title) +
 			"</div>" +
+			"</div>" +
+			"<div class='fc-event-content'>" +
+			"<div class='fc-event-location'>";
+		
+			for (var key in event.locations) {    
+	    		html += '<b>' + event.locations[key] + '</b><br>';
+	    	}
+			html += "</div>";
+			html += "<div class='fc-event-lecturer'>";
+			for ( var key in event.owners) {
+				html += event.owners[key] + '<br>';
+			}
+			html += "</div>";
+			
+		html +=
 			"</div>" +
 			"<div class='fc-event-bg'></div>" +
 			"</div>"; // close inner
